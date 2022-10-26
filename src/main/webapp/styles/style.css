@@ -11,6 +11,15 @@ body {
     border-spacing: 10px;
 }
 
+#results-table{
+    height: 100%;
+    width: 100%;
+    max-width: 1600px;
+    margin: auto;
+    padding-top: 15px;
+    border-spacing: 10px;
+}
+
 .main-header-cell {
     background-color: whitesmoke;
     border-radius: 20px;
@@ -236,4 +245,32 @@ h2 {
 .results-table {
     border-spacing: 10px;
     width: 100%;
+}
+
+#back-button{
+    position: absolute;
+    margin-left: auto;
+    margin-top: 23px;
+    padding: 10px;
+    background-color: #1f1f1f;
+    color: whitesmoke;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: bold;
+    font-size: 36px;
+    border-width: 0px;
+}
+
+#back-button:hover{
+    transition: 0.3s;
+    color: #1f1f1f;
+    background-color: whitesmoke;
+    border-width: 0px;
+}
+
+.finger-img{
+    position: fixed;
+    margin-bottom: auto;
+    margin-left: auto;
+    z-index: -1;
 }

@@ -6,6 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -30,6 +32,21 @@
           $(this).addClass("r-button");
         }
       })
+    }
+  </script>
+  <script type="text/javascript">
+    function drawHit(x, y, ctx) {
+      ctx.beginPath()
+      ctx.arc(x, y, 3, 0, Math.PI * 2)
+      ctx.fill()
+    }
+
+    function loadData(x,y,r) {
+      let canvas = document.getElementById("graph")
+      let ctx = canvas.getContext("2d")
+      ctx.beginPath()
+      drawHit(x * (154 / r) + 330, Math.abs(y * (154 / r) - 340), ctx)
+      ctx.fill()
     }
   </script>
 </head>
@@ -100,22 +117,10 @@
     <td class="coord-area-cell" colspan="2">
       <div>
         <canvas id="graph" height="676" width="674"></canvas>
+        <c:forEach items="${sessionScope.data}" var="element">
+          <input type="hidden" name="hit" class="hit-value" value='{"x": "${element.x}","y": "${element.y}","r": "${element.r}"}'>
+        </c:forEach>
       </div>
-    </td>
-  </tr>
-  <tr>
-    <td colspan="3">
-      <table class="results-table">
-        <tr class="result-row">
-          <th class="result-cell">result</th>
-          <th class="result-cell">X</th>
-          <th class="result-cell">Y</th>
-          <th class="result-cell">R</th>
-          <th class="result-cell">time</th>
-          <th class="result-cell">execution time</th>
-          <th class="result-cell">attempt</th>
-        </tr>
-      </table>
     </td>
   </tr>
 </table>

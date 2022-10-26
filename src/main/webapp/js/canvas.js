@@ -1,11 +1,10 @@
 import * as main from "./main.js";
-import {changeCheckButtonText} from "./main.js";
 
 $(document).ready(function () {
     let canvas = document.getElementById("graph")
     let ctx = canvas.getContext("2d")
 
-    loadData(ctx)
+    loadData()
 
     $("#graph").mousemove(function (event) {
         let r = $("#r-value").val();
@@ -37,20 +36,20 @@ $(document).ready(function () {
 
     })
 
+
+
     function sendRequest(x, y, r) {
-        let time = new Date().getTime()
+        let time = new Date()
         $.get({
             url: "./request",
             data: {
                 x: x,
                 y: y,
-                r: r
+                r: r,
+                time: time
             },
-            dataType: 'JSON'
         }).done(function (data) {
-            data.time = time
-            main.appendData(data)
-            main.saveData(data)
+            window.location.pathname = data
         })
 
     }
@@ -74,13 +73,15 @@ function drawHit(x, y, ctx) {
     ctx.fill()
 }
 
-function loadData(ctx) {
-    let storage = sessionStorage.getItem("storage");
-    if (storage != null) {
-        JSON.parse(storage).data.forEach(function (element) {
-            ctx.beginPath()
-            drawHit(element.x * (154 / element.r) + 330, Math.abs(element.y * (154 / element.r) - 340), ctx)
-            ctx.fill()
-        })
-    }
+function loadData() {
+    console.log("funworks")
+    let canvas = document.getElementById("graph")
+    let ctx = canvas.getContext("2d")
+    $(".hit-value").each(function (i,element){
+        console.log(element.value)
+        let data = JSON.parse(element.value)
+        ctx.beginPath()
+        drawHit(data.x * (154 / data.r) + 330, Math.abs(data.y * (154 / data.r) - 340), ctx)
+        ctx.fill()
+    })
 }

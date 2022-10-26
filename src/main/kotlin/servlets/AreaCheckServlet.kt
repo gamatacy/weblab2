@@ -1,10 +1,10 @@
 package servlets
 
-import jakarta.json.Json
 import jakarta.servlet.annotation.WebServlet
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import ResultInfo
 import kotlin.math.pow
 
 @WebServlet("checkServlet")
@@ -18,10 +18,19 @@ class AreaCheckServlet : HttpServlet() {
         val r = req.getParameter("r").toFloat()
 
         val result = checkCircle(x, y, r) || checkSquare(x, y, r) || checkTriangle(x, y, r)
+        val execTime = (System.nanoTime() - startTime) / 10000
 
-        val response = createJsonResponse(x, y, r, result, (System.nanoTime() - startTime) / 10000)
+        var resultInfo = ResultInfo(result, x, y, r, execTime)
 
-        resp.writer.println(response)
+        if(req.session.getAttribute("data") == null){
+            req.session.setAttribute("data", arrayListOf<ResultInfo>(resultInfo))
+        }else{
+            var results = req.session.getAttribute("data") as ArrayList<ResultInfo>
+            results.add(resultInfo)
+            req.session.setAttribute("data", results)
+        }
+
+        resp.writer.println(req.contextPath + "/results.jsp")
 
     }
 
@@ -35,17 +44,6 @@ class AreaCheckServlet : HttpServlet() {
 
     private fun checkTriangle(x: Float, y: Float, r: Float): Boolean {
         return (y <= ((r - x) / 2)) && (y <= (r / 2) && y >= 0) && (x >= 0 && x <= r)
-    }
-
-    private fun createJsonResponse(x: Float, y: Float, r: Float, result: Boolean, execTime: Long): String {
-        val jsonBuilder = Json.createObjectBuilder()
-        jsonBuilder.add("x", x.toDouble())
-        jsonBuilder.add("y", y.toDouble())
-        jsonBuilder.add("r", r.toDouble())
-        jsonBuilder.add("result", result)
-        jsonBuilder.add("execTime", execTime)
-        return jsonBuilder.build().toString()
-
     }
 
 }
