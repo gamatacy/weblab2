@@ -14,7 +14,7 @@ body {
 #results-table{
     height: 100%;
     width: 100%;
-    max-width: 1600px;
+    max-width: 1200px;
     margin: auto;
     padding-top: 15px;
     border-spacing: 10px;
@@ -250,7 +250,7 @@ h2 {
 #back-button{
     position: absolute;
     margin-left: auto;
-    margin-top: 23px;
+    margin-top: 25px;
     padding: 10px;
     background-color: #1f1f1f;
     color: whitesmoke;

@@ -3,5 +3,6 @@ data class ResultInfo(
     var x: Float,
     var y: Float,
     var r: Float,
+    var date: String,
     var execTime: Long
 )

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,10 +40,10 @@
     <c:forEach items="${sessionScope.data}" var="element">
         <tr class="result-row">
             <th class="result-cell">${element.result}</th>
-            <th class="result-cell">${element.x}</th>
-            <th class="result-cell">${element.y}</th>
+            <th class="result-cell">${fn:substring(element.x, 0, 4)}</th>
+            <th class="result-cell">${fn:substring(element.y, 0, 4)}</th>
             <th class="result-cell">${element.r}</th>
-            <th class="result-cell"><%= new Date() %></th>
+            <th class="result-cell">${element.date}</th>
             <th class="result-cell">${element.execTime}ms</th>
         </tr>
     </c:forEach>

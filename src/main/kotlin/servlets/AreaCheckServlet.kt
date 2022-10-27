@@ -5,6 +5,8 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import ResultInfo
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.pow
 
 @WebServlet("checkServlet")
@@ -12,6 +14,7 @@ class AreaCheckServlet : HttpServlet() {
 
     override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
         val startTime = System.nanoTime()
+        var date = Date()
 
         val x = req.getParameter("x").toFloat()
         val y = req.getParameter("y").toFloat()
@@ -20,11 +23,11 @@ class AreaCheckServlet : HttpServlet() {
         val result = checkCircle(x, y, r) || checkSquare(x, y, r) || checkTriangle(x, y, r)
         val execTime = (System.nanoTime() - startTime) / 10000
 
-        var resultInfo = ResultInfo(result, x, y, r, execTime)
+        var resultInfo = ResultInfo(result, x, y, r, "${date.hours}:${date.minutes}:${date.seconds}", execTime)
 
-        if(req.session.getAttribute("data") == null){
+        if (req.session.getAttribute("data") == null) {
             req.session.setAttribute("data", arrayListOf<ResultInfo>(resultInfo))
-        }else{
+        } else {
             var results = req.session.getAttribute("data") as ArrayList<ResultInfo>
             results.add(resultInfo)
             req.session.setAttribute("data", results)
