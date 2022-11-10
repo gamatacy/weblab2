@@ -1,8 +1,8 @@
 data class ResultInfo(
-    var result: Boolean,
-    var x: Float,
-    var y: Float,
-    var r: Float,
-    var date: String,
-    var execTime: Long
+    val result: Boolean,
+    val x: Float,
+    val y: Float,
+    val r: Float,
+    val date: String,
+    val execTime: Long
 )

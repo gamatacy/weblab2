@@ -246,7 +246,6 @@ h2 {
     border-spacing: 10px;
     width: 100%;
 }
-
 #back-button{
     position: absolute;
     margin-left: auto;
@@ -261,6 +260,7 @@ h2 {
     border-width: 0px;
 }
 
+
 #back-button:hover{
     transition: 0.3s;
     color: #1f1f1f;
@@ -273,4 +273,16 @@ h2 {
     margin-bottom: auto;
     margin-left: auto;
     z-index: -1;
+}
+
+.error-cell{
+    margin: 25px auto auto;
+    max-width: 800px;
+    min-height: 200px;
+    background-color: whitesmoke;
+    border-radius: 15px;
+    font-family: 'Montserrat', sans-serif;
+    color: #1f1f1f;
+    font-size: 32px;
+    word-break: break-all;
 }

@@ -14,27 +14,33 @@ class AreaCheckServlet : HttpServlet() {
 
     override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
         val startTime = System.nanoTime()
-        var date = Date()
+        val date = Date()
 
-        val x = req.getParameter("x").toFloat()
-        val y = req.getParameter("y").toFloat()
-        val r = req.getParameter("r").toFloat()
+        try {
 
-        val result = checkCircle(x, y, r) || checkSquare(x, y, r) || checkTriangle(x, y, r)
-        val execTime = (System.nanoTime() - startTime) / 10000
+            val x = req.getParameter("x").toFloat()
+            val y = req.getParameter("y").toFloat()
+            val r = req.getParameter("r").toFloat()
 
-        var resultInfo = ResultInfo(result, x, y, r, "${date.hours}:${date.minutes}:${date.seconds}", execTime)
+            val result = checkCircle(x, y, r) || checkSquare(x, y, r) || checkTriangle(x, y, r)
+            val execTime = (System.nanoTime() - startTime) / 10000
 
-        if (req.session.getAttribute("data") == null) {
-            req.session.setAttribute("data", arrayListOf<ResultInfo>(resultInfo))
-        } else {
-            var results = req.session.getAttribute("data") as ArrayList<ResultInfo>
-            results.add(resultInfo)
-            req.session.setAttribute("data", results)
+            val resultInfo = ResultInfo(result, x, y, r, "${date.hours}:${date.minutes}:${date.seconds}", execTime)
+
+            if (req.session.getAttribute("data") == null) {
+                req.session.setAttribute("data", arrayListOf<ResultInfo>(resultInfo))
+            } else {
+                val results = req.session.getAttribute("data") as MutableList<ResultInfo>
+                results.add(resultInfo)
+                req.session.setAttribute("data", results)
+            }
+
+            resp.writer.println(req.contextPath + "/results.jsp")
+
+        } catch (e: Exception) {
+            req.session.setAttribute("errorMessage", e.message)
+            resp.sendRedirect(req.contextPath + "/error.jsp")
         }
-
-        resp.writer.println(req.contextPath + "/results.jsp")
-
     }
 
     private fun checkCircle(x: Float, y: Float, r: Float): Boolean {
